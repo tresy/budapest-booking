@@ -27,6 +27,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void book(long roomId, long userId, long from, long to) throws Exception {
+        if (from > to) {
+            throw new Exception("From date can not be bigger than the to date!");
+        }
+
         if (reservationRepository.isBooked(roomId, from, to)) {
             throw new Exception(String.format("Room with id: [%d] is booked in the selected range!", roomId));
         }
