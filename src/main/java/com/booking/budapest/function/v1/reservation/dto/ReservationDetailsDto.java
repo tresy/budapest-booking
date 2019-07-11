@@ -17,5 +17,6 @@ public class ReservationDetailsDto {
     private Long from;
     private Long to;
     private Boolean cancelled;
+    private Integer pricePerDayInHuf;
 
 }

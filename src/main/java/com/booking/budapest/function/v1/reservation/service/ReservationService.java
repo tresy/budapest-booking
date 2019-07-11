@@ -8,6 +8,6 @@ public interface ReservationService {
 
     void book(long roomId, long userId, long from, long to) throws Exception;
     void cancel(long reservationId) throws Exception;
-    List<ReservationDetailsDto> listHistory(long userId);
+    List<ReservationDetailsDto> listHistory(long userId, Integer minPrice, Integer maxPrice, Long from, Long to);
 
 }

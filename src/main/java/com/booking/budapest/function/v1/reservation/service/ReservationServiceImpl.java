@@ -58,9 +58,28 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<ReservationDetailsDto> listHistory(long userId) {
+    public List<ReservationDetailsDto> listHistory(long userId, Integer minPrice, Integer maxPrice, Long from, Long to) {
         return reservationRepository.findAllByUser_Id(userId)
                 .stream()
+                .filter(r -> {
+                    if (minPrice != null && r.getRoom().getPricePerDayInHuf() < minPrice) {
+                        return false;
+                    }
+
+                    if (maxPrice != null && r.getRoom().getPricePerDayInHuf() > maxPrice) {
+                        return  false;
+                    }
+
+                    if (from != null && r.getFromDate() < from) {
+                        return false;
+                    }
+
+                    if (to != null && r.getToDate() > to) {
+                        return false;
+                    }
+
+                    return true;
+                })
                 .map(r ->
                         ReservationDetailsDto.builder()
                                 .id(r.getId())
@@ -69,6 +88,7 @@ public class ReservationServiceImpl implements ReservationService {
                                 .from(r.getFromDate())
                                 .to(r.getToDate())
                                 .cancelled(r.getCancelled())
+                                .pricePerDayInHuf(r.getRoom().getPricePerDayInHuf())
                                 .build()
                 ).collect(Collectors.toList());
     }

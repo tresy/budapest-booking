@@ -27,8 +27,14 @@ public class ReservationController {
     }
 
     @GetMapping("/history")
-    public List<ReservationDetailsDto> listHistory(@RequestParam Long userId){
-        return reservationService.listHistory(userId);
+    public List<ReservationDetailsDto> listHistory(
+            @RequestParam Long userId,
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false) Long from,
+            @RequestParam(required = false) Long to
+    ){
+        return reservationService.listHistory(userId, minPrice, maxPrice, from, to);
     }
 
 }
